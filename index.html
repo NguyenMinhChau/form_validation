@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORM VALIDATION</title>
+    <link rel="icon" href="https://image.shutterstock.com/image-vector/checklist-icon-bonus-pictures-vector-260nw-484053895.jpg">
+    <script src="https://kit.fontawesome.com/a7b0f58175.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./asset/css/main.css">
+</head>
+<body>
+    <div class="main">
+        <form action="" method="POST" class="form" id="form-1">
+            <h3 class="heading">Thành viên đăng ký</h3>
+            <p class="desc">Cùng nhau học lập trình miễn phí</p>
+
+            <div class="spacer"></div>
+
+            <!-- Inputs -->
+            <div class="form-group">
+                <label for="fullname" class="form-label">Tên đầy đủ</label>
+                <div class="content-form-control">
+                    <input class="form-control" type="text" id="fullname" name="fullname" placeholder="VD: Nguyễn Văn A">
+                    <i class="content-form-control-icon fas fa-exclamation-triangle"></i>
+                </div>
+                <span class="form-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <div class="content-form-control">
+                    <input class="form-control" type="email" id="email" name="email" placeholder="VD: example@domain.com">
+                    <i class="content-form-control-icon fas fa-exclamation-triangle"></i>
+                </div>
+                <span class="form-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Mật khẩu</label>
+                <div class="content-form-control">
+                    <input class="form-control" type="password" id="password" name="password" placeholder="Nhập mật khẩu">
+                    <input id="checkbox" type="checkbox" onclick="showPassword()" class="checkbox-none">
+                    <label for="checkbox"><i class="content-form-control-icon-eye-block fas fa-eye-slash"></i></label>
+                    <label for="checkbox"><i class="content-form-control-icon-eye-none fas fa-eye"></i></label>
+                </div>
+                <span class="form-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password_confirmation" class="form-label">Nhập lại mật khẩu</label>
+                <div class="content-form-control">
+                    <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" placeholder="Xác nhận mật khẩu">
+                    <i class="content-form-control-icon fas fa-exclamation-triangle"></i>
+                </div>
+                <span class="form-message"></span>
+            </div>
+
+            <!-- Files -->
+            <div class="form-group">
+                <label for="avatar" class="form-label">Ảnh đại diện</label>
+                <input class="form-control" type="file" id="avatar" name="avatar">
+                <span class="form-message"></span>
+            </div>
+
+            <!-- Radio -->
+            <!-- <div class="form-group">
+                <label for="gender" class="form-label">Giới tính</label>
+                <div class="genders-list">
+                    <label class="genders-label" for="">Nam</label> <input class="form-control genders-list-item" name="gender" type="radio" value="male" >
+                    <label class="genders-label" for="">Nữ</label> <input class="form-control genders-list-item" name="gender" type="radio" value="female" >
+                    <label class="genders-label" for="">Khác</label> <input class="form-control genders-list-item" name="gender" type="radio" value="other" >
+                </div>
+                <span class="form-message"></span>
+            </div> -->
+
+            <!-- Checkbox -->
+            <!-- <div class="form-group">
+                <label for="interests" class="form-label">Sở thích</label>
+                <div class="genders-list">
+                    <label class="genders-label" for="">Du lịch</label> <input class="form-control genders-list-item" name="interests" type="checkbox" value="Dulich" >
+                    <label class="genders-label" for="">Viết mã</label> <input class="form-control genders-list-item" name="interests" type="checkbox" value="Vetma" >
+                    <label class="genders-label" for="">Khám phá</label> <input class="form-control genders-list-item" name="interests" type="checkbox" value="Khampha" >
+                </div>
+                <span class="form-message"></span>
+            </div> -->
+
+            <!-- Select Option -->
+            <div class="form-group">
+                <label for="province" class="form-label">Tỉnh/TP</label>
+                <select class="form-control" id="province" name="province">
+                    <option value="" disabled selected>--Chọn Tỉnh/TP</option>
+                    <option value="hcm">TPHCM</option>
+                    <option value="vt">Vũng Tàu</option>
+                    <option value="hn">Hà Nội</option>
+                </select>
+                <span class="form-message"></span>
+            </div>
+
+            <button class="form-submit">Đăng Ký</button>
+        </form>
+    </div>
+
+    <script src="./asset/js/validator.js"></script>
+    <!-- Viết JS để dùng cho mọi FORM -->
+    <script>
+        Validator({
+            form: '#form-1',
+            formGroup: '.form-group',
+            formMessage: '.form-message',
+            rules: [
+                Validator.isRequired('#fullname'),
+                Validator.isRequired('#email'),
+                Validator.isEmail('#email'),
+                Validator.minLength('#password', 6),
+                Validator.isRequired('#password_confirmation'),
+                Validator.ConfirmPassword('#password_confirmation'),
+                Validator.isRequired('#province','Vui lòng không bỏ trống'),
+                Validator.isRequired('input[name="interests"]','Vui lòng không bỏ trống'),
+                Validator.isRequired('input[name="gender"]','Vui lòng không bỏ trống'),
+            ],
+            onSubmit(data){
+                console.log(data);
+            }
+        })
+    </script>
+</body>
+</html>
+
