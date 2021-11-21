@@ -8,9 +8,9 @@ function Validator(options) {
     }
     function validate(inputElement,rule){
         var errorElement = getParentElement(inputElement,options.formGroup).querySelector(options.formMessage);
+        var errorMessage;
         var rules = selectRules[rule.selector];
-        for (var i = 0; i < rules.length; i++) {
-            var errorMessage;
+        for (var i in rules) {
             switch(inputElement.type){
                 case 'checkbox':
                 case 'radio':
@@ -24,14 +24,14 @@ function Validator(options) {
             if(errorMessage){
                 errorElement.innerHTML = errorMessage;
                 getParentElement(inputElement,options.formGroup).classList.add('invalid');
-                break; //Có lỗi thì dừng ngay lặp tức
+                break;
             }
             else{
                 errorElement.innerHTML = '';
                 getParentElement(inputElement,options.formGroup).classList.remove('invalid')
             }
-            return !errorMessage;
         }
+        return !errorMessage;
     }
     var formElement = document.querySelector(options.form);
     if(formElement){
@@ -73,7 +73,7 @@ function Validator(options) {
             })
             if(isValid){
                 var enableInputs = formElement.querySelectorAll('[name]:not([disabled])');
-                var data = Array.from(enableInputs).reduce((data,input) => {
+                var datas = Array.from(enableInputs).reduce((data,input) => {
                     switch(input.type){
                         //get value checkbox from form element
                         case 'checkbox':
@@ -97,7 +97,7 @@ function Validator(options) {
                     }
                     return data;
                 },{})
-                options.onSubmit(data);
+                options.onSubmit(datas);
             }
             else{
                 console.log('Có lỗi');
@@ -117,7 +117,7 @@ Validator.isEmail = (selector,message) => {
     return {
         selector,
         test(value){
-            var rex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            var rex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return rex.test(value) ? undefined : message || 'Vui lòng nhập đúng định dạng email';
         }
     }
@@ -141,10 +141,10 @@ Validator.ConfirmPassword = (selector,message) => {
 }
 function showPassword(){
     var password = document.querySelector('#password');
-    var showPassword = document.querySelector('#checkbox');
+    var showPass = document.querySelector('#checkbox');
     var eyeBlocked = document.querySelector('.content-form-control-icon-eye-block');
     var eyeNone = document.querySelector('.content-form-control-icon-eye-none');
-    if(showPassword.checked){
+    if(showPass.checked){
         password.setAttribute('type','text');
         eyeBlocked.style.display = 'none';
         eyeNone.style.display = 'block';
